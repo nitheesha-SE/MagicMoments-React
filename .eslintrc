@@ -61,6 +61,8 @@
     "react/jsx-wrap-multilines": ["warn"],
     "react/jsx-indent-props": 0,
     "no-trailing-spaces": [2, { "skipBlankLines": true }],
+    "no-undef": ["warn"],
+    "no-underscore-dangle": ["warn"],
     "prefer-template": 0,
     "import/prefer-default-export": 0,
     "import/no-unresolved": 0,
