@@ -3,6 +3,7 @@ import { hot } from 'react-hot-loader';
 import Geosuggest from 'react-geosuggest';
 import HelloWorld from './components/hello-world';
 import MyMapComponent from './components/my-map-component';
+import GroceryList from './components/grocery-list';
 
 class App extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class App extends Component {
   render() {
     return (
       <>
+        <GroceryList />
         <HelloWorld title="Nearby Grocery Stores" />
         <Geosuggest onSuggestSelect={this.onSuggestSelect} />
         <MyMapComponent mapCenter={this.state.mapCenter} />
