@@ -18,7 +18,7 @@ const MyMapComponent = compose(
   }),
   withScriptjs,
   withGoogleMap,
-  withState('places', 'updatePlaces', '', 'mapCenter'),
+  withState('places', 'updatePlaces', '', 'mapCenter', 'onNearbyGroceryStores'),
   withHandlers(() => {
     const refs = {
       map: undefined,
@@ -37,9 +37,13 @@ const MyMapComponent = compose(
           bounds,
           type: ['supermarket'],
         };
+
         service.nearbySearch(request, (results, status) => {
           if (status === google.maps.places.PlacesServiceStatus.OK) {
             updatePlaces(results);
+            window.onNearbyGroceryStores(results.length > 0);
+          } else {
+            window.onNearbyGroceryStores(false);
           }
         });
       },
@@ -69,6 +73,7 @@ const MyMapComponent = compose(
 MyMapComponent.propTypes = {
   title: PropTypes.string,
   mapCenter: PropTypes.element.isRequired,
+  onNearbyGroceryStores: PropTypes.element.isRequired,
 };
 
 export default MyMapComponent;
