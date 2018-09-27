@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './grocery-list.css';
+import style from './grocery-list.css';
 import TodoItems from './TodoItems';
 
 class GroceryList extends Component {
@@ -41,8 +41,8 @@ class GroceryList extends Component {
 
   render() {
     return (
-      <div className="todoListMain">
-        <div className="header">
+      <div className={style.todoListMain}>
+        <div className={style.header}>
           <div>Family Grocery List</div>
           <form onSubmit={this.addItem}>
             <input

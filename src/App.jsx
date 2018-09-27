@@ -17,10 +17,10 @@ class App extends Component {
   render() {
     return (
       <>
-        <GroceryList />
         <HelloWorld title="Nearby Grocery Stores" />
         <Geosuggest onSuggestSelect={this.onSuggestSelect} />
         <MyMapComponent mapCenter={this.state.mapCenter} />
+        <GroceryList />
       </>
     );
   }

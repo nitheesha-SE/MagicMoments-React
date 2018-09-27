@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FlipMove from 'react-flip-move';
 import PropTypes from 'prop-types';
+import style from './grocery-list.css';
 
 class TodoItems extends Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class TodoItems extends Component {
     const listItems = todoEntries.map(this.createTasks);
 
     return (
-      <ul className="theList">
+      <ul className={style.theList}>
         <FlipMove duration={250} easing="ease-out">
           {listItems}
         </FlipMove>
