@@ -7,22 +7,26 @@ import MyMapComponent from './components/my-map-component';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      mapCenter: { lat: 42.331014, lng: -83.07204000000002 },
+    };
+    this.onSuggestSelect = this.onSuggestSelect.bind(this);
   }
 
   render() {
     return (
       <>
         <HelloWorld title="Nearby Grocery Stores" />
-        <Geosuggest
-          onSuggestSelect={suggest => {
-            console.log(suggest.location.lat);
-            console.log(suggest.location.lng);
-          }}
-        />
-        <MyMapComponent />
+        <Geosuggest onSuggestSelect={this.onSuggestSelect} />
+        <MyMapComponent mapCenter={this.state.mapCenter} />
       </>
     );
+  }
+
+  onSuggestSelect(suggest) {
+    this.setState({
+      mapCenter: suggest.location,
+    });
   }
 }
 

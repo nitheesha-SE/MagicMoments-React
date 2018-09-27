@@ -18,7 +18,7 @@ const MyMapComponent = compose(
   }),
   withScriptjs,
   withGoogleMap,
-  withState('places', 'updatePlaces', ''),
+  withState('places', 'updatePlaces', '', 'mapCenter'),
   withHandlers(() => {
     const refs = {
       map: undefined,
@@ -39,7 +39,6 @@ const MyMapComponent = compose(
         };
         service.nearbySearch(request, (results, status) => {
           if (status === google.maps.places.PlacesServiceStatus.OK) {
-            console.log(results);
             updatePlaces(results);
           }
         });
@@ -51,8 +50,8 @@ const MyMapComponent = compose(
     onTilesLoaded={props.fetchPlaces}
     ref={props.onMapMounted}
     onBoundsChanged={props.fetchPlaces}
-    defaultZoom={16}
-    defaultCenter={{ lat: 41.8928403, lng: -87.6195965 }}
+    defaultZoom={14}
+    center={props.mapCenter}
   >
     {props.places &&
       props.places.map(place => (
@@ -69,6 +68,7 @@ const MyMapComponent = compose(
 
 MyMapComponent.propTypes = {
   title: PropTypes.string,
+  mapCenter: PropTypes.element.isRequired,
 };
 
 export default MyMapComponent;

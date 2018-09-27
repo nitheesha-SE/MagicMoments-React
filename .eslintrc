@@ -59,6 +59,7 @@
     "react/jsx-indent": ["warn", 2],
     "react/jsx-key": "error",
     "react/jsx-wrap-multilines": ["warn"],
+    "react/destructuring-assignment": ["warn"],
     "react/jsx-indent-props": 0,
     "no-trailing-spaces": [2, { "skipBlankLines": true }],
     "no-undef": ["warn"],
