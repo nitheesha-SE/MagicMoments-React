@@ -11,6 +11,7 @@ class App extends Component {
     this.state = {
       mapCenter: { lat: 42.331014, lng: -83.07204000000002 },
       isGroceryStoreNearby: 'Nothing nearby.',
+      showTextFamily: false,
     };
     this.onSuggestSelect = this.onSuggestSelect.bind(this);
     this.onNearbyGroceryStores = this.onNearbyGroceryStores.bind(this);
@@ -24,6 +25,7 @@ class App extends Component {
         <HelloWorld
           title="Nearby Grocery Stores"
           isGroceryStoreNearby={this.state.isGroceryStoreNearby}
+          showTextFamily={this.state.showTextFamily}
         />
         <Geosuggest onSuggestSelect={this.onSuggestSelect} />
         <MyMapComponent
@@ -53,14 +55,17 @@ class App extends Component {
       this.setState({
         isGroceryStoreNearby:
           'There are grocery stores nearby and you have items in your list.',
+        showTextFamily: true,
       });
     } else if (isNearby) {
       this.setState({
         isGroceryStoreNearby: 'Grocery list is empty.',
+        showTextFamily: false,
       });
     } else {
       this.setState({
         isGroceryStoreNearby: 'No grocery stores nearby.',
+        showTextFamily: false,
       });
     }
   }
