@@ -4,6 +4,8 @@ import Geosuggest from 'react-geosuggest';
 import HelloWorld from './components/hello-world';
 import MyMapComponent from './components/my-map-component';
 import GroceryList from './components/grocery-list';
+import style from './App.css';
+import SlalomIcon from './img/slalom-logo.png';
 
 class App extends Component {
   constructor(props) {
@@ -15,6 +17,8 @@ class App extends Component {
     };
     this.onSuggestSelect = this.onSuggestSelect.bind(this);
     this.onNearbyGroceryStores = this.onNearbyGroceryStores.bind(this);
+    this.groceryListRef = React.createRef();
+
     // binding this globally so it can be called from a GMaps callback
     window.onNearbyGroceryStores = this.onNearbyGroceryStores;
   }
@@ -22,21 +26,28 @@ class App extends Component {
   render() {
     return (
       <>
-        <HelloWorld
-          title="Nearby Grocery Stores"
-          isGroceryStoreNearby={this.state.isGroceryStoreNearby}
-          showTextFamily={this.state.showTextFamily}
-        />
-        <Geosuggest onSuggestSelect={this.onSuggestSelect} />
-        <MyMapComponent
-          mapCenter={this.state.mapCenter}
-          onNearbyGroceryStores={this.onNearbyGroceryStores}
-        />
-        <GroceryList
-          ref={child => {
-            this.groceryListRef = child;
-          }}
-        />
+        <div className={style.wrapper}>
+          <header>
+            <HelloWorld
+              title="Nearby Grocery Stores"
+              isGroceryStoreNearby={this.state.isGroceryStoreNearby}
+              showTextFamily={this.state.showTextFamily}
+            />
+          </header>
+          <article>
+            <Geosuggest onSuggestSelect={this.onSuggestSelect} />
+            <MyMapComponent
+              mapCenter={this.state.mapCenter}
+              onNearbyGroceryStores={this.onNearbyGroceryStores}
+            />
+          </article>
+          <aside>
+            <GroceryList ref={this.groceryListRef} />
+          </aside>
+          <footer>
+            <img alt="Slalom" src={SlalomIcon} />
+          </footer>
+        </div>
       </>
     );
   }
@@ -49,8 +60,9 @@ class App extends Component {
 
   onNearbyGroceryStores(isNearby) {
     // debugger;
-    console.log(this.groceryListRef.state.items);
-    if (isNearby && this.groceryListRef.state.items.length > 0) {
+    console.log(this.groceryListRef);
+    console.log(this.groceryListRef.current.state.items);
+    if (isNearby && this.groceryListRef.current.state.items.length > 0) {
       console.log('there are nearby grocery stores!');
       this.setState({
         isGroceryStoreNearby:
