@@ -8,7 +8,10 @@ const HelloWorld = ({ title, isGroceryStoreNearby, showTextFamily }) => (
     <div>{isGroceryStoreNearby}</div>
     <div>
       {showTextFamily ? (
-        <button type="button"> Text Family </button>
+        <button type="button" className={style.button}>
+          {' '}
+          Text Family{' '}
+        </button>
       ) : (
         <button type="button" hidden>
           {' '}

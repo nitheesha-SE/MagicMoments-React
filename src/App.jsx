@@ -29,7 +29,7 @@ class App extends Component {
         <div className={style.wrapper}>
           <header>
             <HelloWorld
-              title="Nearby Grocery Stores"
+              title="AUTO"
               isGroceryStoreNearby={this.state.isGroceryStoreNearby}
               showTextFamily={this.state.showTextFamily}
             />
