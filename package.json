@@ -4,7 +4,7 @@
   "description": "Boilerplate for react and webpack",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-serve --open",
+    "start": "cross-env NODE_ENV=development webpack-serve --open --port 9080",
     "build": "cross-env NODE_ENV=production webpack",
     "format": "prettier --write 'packages/**/*.js'",
     "test": "jest --watchAll --coverage",
