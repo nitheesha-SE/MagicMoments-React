@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const convert = require('koa-connect');
 const history = require('connect-history-api-fallback');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const proxy = require('http-proxy-middleware');
 const commonPaths = require('./paths');
 
 module.exports = {
@@ -48,6 +49,7 @@ module.exports = {
   },
   serve: {
     add: app => {
+      app.use(convert(proxy('/api', { target: 'http://localhost:8080' })));
       app.use(convert(history()));
     },
     content: commonPaths.entryPath,

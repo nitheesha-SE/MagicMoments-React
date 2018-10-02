@@ -19,6 +19,16 @@ class GroceryList extends Component {
     this.removeNotification = this.removeNotification.bind(this);
   }
 
+  componentDidMount() {
+    fetch('/api/shoppingList')
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          items: data.data,
+        });
+      });
+  }
+
   addItem(e) {
     const itemArray = this.state.items;
 
