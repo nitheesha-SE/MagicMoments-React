@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import style from './hello-world.css';
+import style from './heading.css';
 
-const HelloWorld = ({ title }) => (
+const Heading = ({ title }) => (
   <>
-    <div className={style['hello-world']}>{title}</div>
+    <div className={style.heading}>{title}</div>
   </>
 );
 
-HelloWorld.propTypes = {
+Heading.propTypes = {
   title: PropTypes.string,
   isGroceryStoreNearby: PropTypes.string,
   showTextFamily: PropTypes.bool,
 };
 
-export default HelloWorld;
+export default Heading;
