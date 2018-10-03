@@ -15,11 +15,32 @@ class GroceryList extends Component {
 
     this.addItem = this.addItem.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
-    this.addNotification = this.addNotification.bind(this);
+    this.itemAddNotification = this.itemAddNotification.bind(this);
     this.removeNotification = this.removeNotification.bind(this);
+    this.componentDidUpdate = this.componentDidUpdate.bind(this);
   }
 
   componentDidMount() {
+    setInterval(() => this.getShoppingList(), 1000);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.items.length > this.state.items.length) {
+      const prevItemSet = new Set();
+      prevState.items.forEach(element => prevItemSet.add(element.text));
+      this.state.items.forEach(value => prevItemSet.delete(value.text));
+      prevItemSet.forEach(value => this.itemDeletedNotification(value));
+    }
+
+    if (prevState.items.length < this.state.items.length) {
+      const newItemSet = new Set();
+      this.state.items.forEach(element => newItemSet.add(element.text));
+      prevState.items.forEach(value => newItemSet.delete(value.text));
+      newItemSet.forEach(value => this.itemAddNotification(value));
+    }
+  }
+
+  async getShoppingList() {
     fetch('/api/shoppingList')
       .then(response => response.json())
       .then(data => {
@@ -33,7 +54,7 @@ class GroceryList extends Component {
     const itemArray = this.state.items;
 
     if (this._inputElement.value !== '') {
-      this.addNotification(this._inputElement.value);
+      this.itemAddNotification(this._inputElement.value);
 
       itemArray.unshift({
         text: this._inputElement.value,
@@ -56,11 +77,27 @@ class GroceryList extends Component {
     }));
   }
 
-  addNotification(groceryItemName) {
+  itemAddNotification(groceryItemName) {
     const guid = Date.now();
     return this.setState(prevState => ({
       notifications: prevState.notifications.add({
         message: groceryItemName + ` added to grocery list!`,
+        key: guid,
+        action: 'Dismiss',
+        dismissAfter: 5000,
+        onClick: (notification, deactivate) => {
+          deactivate();
+          this.removeNotification(guid);
+        },
+      }),
+    }));
+  }
+
+  itemDeletedNotification(groceryItemName) {
+    const guid = Date.now();
+    return this.setState(prevState => ({
+      notifications: prevState.notifications.add({
+        message: groceryItemName + ` has been deleted from the grocery list!`,
         key: guid,
         action: 'Dismiss',
         dismissAfter: 5000,
