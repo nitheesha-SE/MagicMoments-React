@@ -120,20 +120,37 @@ class GroceryList extends Component {
     }));
   }
 
-  groceryStoresNearbyNotification() {
+  groceryStoresNearbyNotification(isNearby) {
     const guid = Date.now();
     const notification = {
-      message: 'There are grocery stores nearby! Text family?',
+      message: 'There are grocery stores nearby!',
       key: guid,
-      action: 'Dismiss',
-      dismissAfter: 5000,
+      action: 'Text Family?',
+      dismissAfter: false,
       onClick: (currentNotification, deactivate) => {
-        deactivate();
-        this.removeNotification(guid);
+        fetch('/api/shoppingList/notifyFamily', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message:
+              "I'm at a grocery store! Add to the " +
+              'family shopping list if you would like anything!',
+          }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            deactivate();
+            this.removeNotification(guid);
+          });
       },
     };
 
     if (
+      isNearby &&
       this.state.notifications.get(
         this.state.groceryStoresNearbyNotificationKey,
       ) == null
@@ -142,6 +159,11 @@ class GroceryList extends Component {
         groceryStoresNearbyNotificationKey: notification,
         notifications: prevState.notifications.add(notification),
       }));
+    }
+    if (!isNearby) {
+      return this.removeNotification(
+        this.state.groceryStoresNearbyNotificationKey,
+      );
     }
     return null;
   }
@@ -154,9 +176,11 @@ class GroceryList extends Component {
 
   onNearbyGroceryStores(isNearby) {
     if (isNearby && this.state.items.length > 0) {
-      return this.groceryStoresNearbyNotification();
+      return this.groceryStoresNearbyNotification(isNearby);
     }
-    return null;
+    return this.removeNotification(
+      this.state.groceryStoresNearbyNotificationKey.key,
+    );
   }
 
   render() {
@@ -172,7 +196,7 @@ class GroceryList extends Component {
         />
         <div className={style.todoListMain}>
           <div className={style.header}>
-            <div>Family Shopping List</div>
+            <div className={style.familyShoppingListHeader}>Shopping List</div>
           </div>
 
           <TodoItems

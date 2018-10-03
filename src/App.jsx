@@ -12,11 +12,8 @@ class App extends Component {
     super(props);
     this.state = {
       mapCenter: { lat: 42.331014, lng: -83.07204000000002 },
-      isGroceryStoreNearby: '',
-      showTextFamily: false,
     };
     this.onSuggestSelect = this.onSuggestSelect.bind(this);
-    // this.onNearbyGroceryStores = this.onNearbyGroceryStores.bind(this);
     this.groceryListRef = React.createRef();
   }
 
