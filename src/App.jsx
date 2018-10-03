@@ -12,15 +12,12 @@ class App extends Component {
     super(props);
     this.state = {
       mapCenter: { lat: 42.331014, lng: -83.07204000000002 },
-      isGroceryStoreNearby: 'Nothing nearby.',
+      isGroceryStoreNearby: '',
       showTextFamily: false,
     };
     this.onSuggestSelect = this.onSuggestSelect.bind(this);
-    this.onNearbyGroceryStores = this.onNearbyGroceryStores.bind(this);
+    // this.onNearbyGroceryStores = this.onNearbyGroceryStores.bind(this);
     this.groceryListRef = React.createRef();
-
-    // binding this globally so it can be called from a GMaps callback
-    window.onNearbyGroceryStores = this.onNearbyGroceryStores;
   }
 
   render() {
@@ -56,30 +53,6 @@ class App extends Component {
     this.setState({
       mapCenter: suggest.location,
     });
-  }
-
-  onNearbyGroceryStores(isNearby) {
-    // debugger;
-    console.log(this.groceryListRef);
-    console.log(this.groceryListRef.current.state.items);
-    if (isNearby && this.groceryListRef.current.state.items.length > 0) {
-      console.log('there are nearby grocery stores!');
-      this.setState({
-        isGroceryStoreNearby:
-          'There are grocery stores nearby and you have items in your list.',
-        showTextFamily: true,
-      });
-    } else if (isNearby) {
-      this.setState({
-        isGroceryStoreNearby: 'Grocery list is empty.',
-        showTextFamily: false,
-      });
-    } else {
-      this.setState({
-        isGroceryStoreNearby: 'No grocery stores nearby.',
-        showTextFamily: false,
-      });
-    }
   }
 }
 

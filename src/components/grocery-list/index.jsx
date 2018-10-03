@@ -11,13 +11,24 @@ class GroceryList extends Component {
     this.state = {
       items: [],
       notifications: OrderedSet(),
+      groceryStoresNearbyNotificationKey: null,
     };
 
+    // refs
+    this.groceryListRef = React.createRef();
+
+    // binds
     this.addItem = this.addItem.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
     this.itemAddNotification = this.itemAddNotification.bind(this);
     this.removeNotification = this.removeNotification.bind(this);
     this.componentDidUpdate = this.componentDidUpdate.bind(this);
+    this.groceryStoresNearbyNotification = this.groceryStoresNearbyNotification.bind(
+      this,
+    );
+    // binding this globally so it can be called from a GMaps callback
+    this.onNearbyGroceryStores = this.onNearbyGroceryStores.bind(this);
+    window.onNearbyGroceryStores = this.onNearbyGroceryStores;
   }
 
   componentDidMount() {
@@ -81,7 +92,7 @@ class GroceryList extends Component {
     const guid = Date.now();
     return this.setState(prevState => ({
       notifications: prevState.notifications.add({
-        message: groceryItemName + ` added to grocery list!`,
+        message: groceryItemName + ` added to shopping list!`,
         key: guid,
         action: 'Dismiss',
         dismissAfter: 5000,
@@ -97,7 +108,7 @@ class GroceryList extends Component {
     const guid = Date.now();
     return this.setState(prevState => ({
       notifications: prevState.notifications.add({
-        message: groceryItemName + ` has been deleted from the grocery list!`,
+        message: groceryItemName + ` has been deleted from the shopping list!`,
         key: guid,
         action: 'Dismiss',
         dismissAfter: 5000,
@@ -109,10 +120,43 @@ class GroceryList extends Component {
     }));
   }
 
+  groceryStoresNearbyNotification() {
+    const guid = Date.now();
+    const notification = {
+      message: 'There are grocery stores nearby! Text family?',
+      key: guid,
+      action: 'Dismiss',
+      dismissAfter: 5000,
+      onClick: (currentNotification, deactivate) => {
+        deactivate();
+        this.removeNotification(guid);
+      },
+    };
+
+    if (
+      this.state.notifications.get(
+        this.state.groceryStoresNearbyNotificationKey,
+      ) == null
+    ) {
+      return this.setState(prevState => ({
+        groceryStoresNearbyNotificationKey: notification,
+        notifications: prevState.notifications.add(notification),
+      }));
+    }
+    return null;
+  }
+
   removeNotification(count) {
     this.setState(prevState => ({
       notifications: prevState.notifications.filter(n => n.key !== count),
     }));
+  }
+
+  onNearbyGroceryStores(isNearby) {
+    if (isNearby && this.state.items.length > 0) {
+      return this.groceryStoresNearbyNotification();
+    }
+    return null;
   }
 
   render() {
@@ -128,10 +172,14 @@ class GroceryList extends Component {
         />
         <div className={style.todoListMain}>
           <div className={style.header}>
-            <div>Family Grocery List</div>
+            <div>Family Shopping List</div>
           </div>
 
-          <TodoItems entries={this.state.items} delete={this.deleteItem} />
+          <TodoItems
+            entries={this.state.items}
+            delete={this.deleteItem}
+            ref={this.groceryListRef}
+          />
         </div>
       </>
     );
