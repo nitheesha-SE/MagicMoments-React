@@ -129,16 +129,6 @@ class GroceryList extends Component {
         <div className={style.todoListMain}>
           <div className={style.header}>
             <div>Family Grocery List</div>
-            <form onSubmit={this.addItem}>
-              <input
-                ref={a => {
-                  this._inputElement = a;
-                  return this._inputElement;
-                }}
-                placeholder="enter task"
-              />
-              <button type="submit">add</button>
-            </form>
           </div>
 
           <TodoItems entries={this.state.items} delete={this.deleteItem} />
