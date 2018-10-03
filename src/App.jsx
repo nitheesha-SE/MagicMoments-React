@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import Geosuggest from 'react-geosuggest';
-import HelloWorld from './components/hello-world';
+import Heading from './components/heading-component';
 import MyMapComponent from './components/my-map-component';
 import GroceryList from './components/grocery-list';
 import style from './App.css';
@@ -22,7 +22,7 @@ class App extends Component {
       <>
         <div className={style.wrapper}>
           <header>
-            <HelloWorld
+            <Heading
               title="AUTO"
               isGroceryStoreNearby={this.state.isGroceryStoreNearby}
               showTextFamily={this.state.showTextFamily}

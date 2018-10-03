@@ -89,7 +89,7 @@ class GroceryList extends Component {
   }
 
   itemAddNotification(groceryItemName) {
-    const guid = Date.now();
+    const guid = Date.now() + Math.random();
     return this.setState(prevState => ({
       notifications: prevState.notifications.add({
         message: groceryItemName + ` added to shopping list!`,
@@ -105,7 +105,7 @@ class GroceryList extends Component {
   }
 
   itemDeletedNotification(groceryItemName) {
-    const guid = Date.now();
+    const guid = Date.now() + Math.random();
     return this.setState(prevState => ({
       notifications: prevState.notifications.add({
         message: groceryItemName + ` has been deleted from the shopping list!`,
@@ -121,7 +121,7 @@ class GroceryList extends Component {
   }
 
   groceryStoresNearbyNotification(isNearby) {
-    const guid = Date.now();
+    const guid = Date.now() + Math.random();
     const notification = {
       message: 'There are grocery stores nearby!',
       key: guid,
