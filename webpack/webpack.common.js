@@ -49,7 +49,15 @@ module.exports = {
   },
   serve: {
     add: app => {
-      app.use(convert(proxy('/api', { target: 'http://localhost:8080' })));
+      // app.use(convert(proxy('/api', { target: 'http://localhost:8080' })));
+      app.use(
+        convert(
+          proxy('/api', {
+            target: 'http://7d77d4069bab1b5b.azurewebsites.net',
+            changeOrigin: true,
+          }),
+        ),
+      );
       app.use(convert(history()));
     },
     content: commonPaths.entryPath,
