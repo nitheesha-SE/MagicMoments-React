@@ -3,7 +3,7 @@
 This PoC demonstrates the family and friends shopping list use case. It is meant to be run with the Spring Boot Backend for
 full functionality. Out of the box it will use the backend hosted in a Ford Azure account at: http://dev-ifttt.azurewebsites.net. The same backend that is also used for the IFTTT PoC.
 
-This PoC was build using ReactJS and corresponding tooling. The below directions specify how to run the
+This PoC was built using ReactJS, Webpack and corresponding tooling. The below directions specify how to run the PoC locally.
 
 ## Webpack react minimal boilerplate
 
