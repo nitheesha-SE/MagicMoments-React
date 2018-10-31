@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
-import Geosuggest from 'react-geosuggest';
 import Heading from './components/heading-component';
-import MyMapComponent from './components/my-map-component';
-import GroceryList from './components/grocery-list';
+import Map from './components/map-component';
+import ShoppingList from './components/shopping-list-component';
+import AddShoppingItem from './components/add-shopping-item-component';
 import style from './App.css';
 import SlalomIcon from './img/slalom-logo.png';
 
@@ -11,10 +11,39 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mapCenter: { lat: 42.331014, lng: -83.07204000000002 },
+      showNotifyFamily: false,
+      showMessageWidget: false,
     };
-    this.onSuggestSelect = this.onSuggestSelect.bind(this);
-    this.groceryListRef = React.createRef();
+    this.showNotifyFamilyRef = React.createRef();
+    this.showMessageWidgetRef = React.createRef();
+
+    // binding this globally so it can be called from a Maps callback
+    this.onNearbyGroceryStores = this.onNearbyGroceryStores.bind(this);
+    this.handleDisplayMessageWidget = this.handleDisplayMessageWidget.bind(
+      this,
+    );
+    window.onNearbyGroceryStores = this.onNearbyGroceryStores;
+    window.handleDisplayMessageWidget = this.handleDisplayMessageWidget;
+  }
+
+  onNearbyGroceryStores(isNearby) {
+    if (isNearby) {
+      this.setState({ showNotifyFamily: true });
+      this.showNotifyFamilyRef.current.state.show = true;
+    } else {
+      this.setState({ showNotifyFamily: false });
+      this.showNotifyFamilyRef.current.state.show = false;
+    }
+  }
+
+  handleDisplayMessageWidget(show) {
+    if (show) {
+      this.setState({ showMessageWidget: true });
+      this.showMessageWidgetRef.current.state.showMessageWidget = true;
+    } else {
+      this.setState({ showMessageWidget: false });
+      this.showMessageWidgetRef.current.state.showMessageWidget = false;
+    }
   }
 
   render() {
@@ -23,33 +52,28 @@ class App extends Component {
         <div className={style.wrapper}>
           <header>
             <Heading
-              title="AUTO"
-              isGroceryStoreNearby={this.state.isGroceryStoreNearby}
-              showTextFamily={this.state.showTextFamily}
+              show={this.state.showNotifyFamily}
+              ref={this.showNotifyFamilyRef}
             />
           </header>
-          <article>
-            <Geosuggest onSuggestSelect={this.onSuggestSelect} />
-            <MyMapComponent
-              mapCenter={this.state.mapCenter}
-              onNearbyGroceryStores={this.onNearbyGroceryStores}
+          <map>
+            <Map />
+          </map>
+          <shoppinglist>
+            <ShoppingList
+              showMessageWidget={this.state.showMessageWidget}
+              ref={this.showMessageWidgetRef}
             />
-          </article>
-          <aside>
-            <GroceryList ref={this.groceryListRef} />
-          </aside>
+          </shoppinglist>
+          <searchlist>
+            <AddShoppingItem />
+          </searchlist>
           <footer>
             <img alt="Slalom" src={SlalomIcon} />
           </footer>
         </div>
       </>
     );
-  }
-
-  onSuggestSelect(suggest) {
-    this.setState({
-      mapCenter: suggest.location,
-    });
   }
 }
 

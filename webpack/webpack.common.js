@@ -53,7 +53,7 @@ module.exports = {
       app.use(
         convert(
           proxy('/api', {
-            target: 'http://7d77d4069bab1b5b.azurewebsites.net',
+            target: 'http://dev-ifttt.azurewebsites.net',
             changeOrigin: true,
           }),
         ),
