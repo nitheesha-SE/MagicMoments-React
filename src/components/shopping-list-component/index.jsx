@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import bellIcon from './img/bell-icon.png';
 import phoneIcon from './img/phone-icon.png';
 import removeItemIcon from './img/remove-item-icon.png';
+import walmartIcon from './img/walmart-icon.png';
 import style from './shopping-list.css';
 
 class ShoppingList extends Component {
@@ -190,7 +191,18 @@ class ShoppingList extends Component {
                 role="button"
                 tabIndex={index}
               >
-                <div className={style.itemName}>{shoppingItem.text}</div>
+                <div className={style.itemName}>
+                  {shoppingItem.text}
+                  {shoppingItem.walmartResponse && (
+                    <a
+                      href={shoppingItem.walmartResponse.items[0].productUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img width="20px" src={walmartIcon} alt="walmart" />{' '}
+                    </a>
+                  )}
+                </div>
                 <div className={style.itemOwner}>
                   {shoppingItem.ownerName}
                   <span className={style.dot} />
